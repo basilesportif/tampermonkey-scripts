@@ -4,9 +4,14 @@ A collection of userscripts for use with [Tampermonkey](https://www.tampermonkey
 
 ## Scripts
 
-| Script | Description |
-|--------|-------------|
-| *Coming soon* | Scripts will be listed here |
+| Script | Site | Description |
+|--------|------|-------------|
+
+## Naming Convention
+
+```
+{site}-{feature}.user.js
+```
 
 ## Installation
 
