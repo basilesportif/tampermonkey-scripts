@@ -35,4 +35,3 @@
 
   // Optional: if the element is injected extremely frequently, you can throttle.
 })();
-
