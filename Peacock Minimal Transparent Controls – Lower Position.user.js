@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Peacock Minimal Transparent Controls – Lower Position
 // @namespace    peacock-minimal-controls
-// @version      0.2.3
+// @version      0.2.4
 // @description  Removes Peacock's dark playback overlay, keeps only the scrubber, time, play/pause, and 10-second buttons, and moves them closer to the bottom. Works on both live and replay (VOD) players.
 // @match        https://www.peacocktv.com/watch/*
 // @run-at       document-start
@@ -28,6 +28,16 @@
      */
     const KEEP_BUTTON_PATTERN =
         /\b(play|pause)\b|(?:rewind|replay|back|backward|forward|skip|seek).{0,30}\b10\b|\b10\b.{0,30}(?:second|seconds|sec)\b/i;
+
+    /*
+     * ADDED (0.2.4): Also keep the settings / audio & subtitles
+     * button so the broadcast language can be changed. Kept
+     * separate from KEEP_BUTTON_PATTERN so that pattern is unchanged.
+     * Plain "audio" is deliberately not matched, so the volume/mute
+     * button stays hidden.
+     */
+    const KEEP_SETTINGS_PATTERN =
+        /\b(settings?|subtitles?|captions?|languages?)\b|\baudio\s*(?:&|and|\/)\s*(?:subtitles?|captions?)\b/i;
 
     let updateScheduled = false;
 
@@ -435,11 +445,30 @@
         );
     }
 
+    /*
+     * ADDED (0.2.4): Buttons inside the settings menu (language
+     * choices, close, back) must not be hidden either, or the menu
+     * opens empty. Leave anything inside a menu/dialog alone.
+     */
+    function isMenuControl(element) {
+        const role = element.getAttribute('role');
+
+        if (/^(menuitem|menuitemradio|menuitemcheckbox|option|radio|checkbox|tab)$/.test(role || '')) {
+            return true;
+        }
+
+        return Boolean(
+            element.closest(
+                '[role="dialog"], [role="menu"], [role="listbox"], [role="radiogroup"], [role="tablist"], [aria-modal="true"]'
+            )
+        );
+    }
+
     function filterButtons(playerRoot) {
         const buttons = playerRoot.querySelectorAll('button');
 
         for (const button of buttons) {
-            if (isSliderControl(button)) {
+            if (isSliderControl(button) || isMenuControl(button)) {
                 /*
                  * Leave slider/scrubber controls completely alone -
                  * don't hide them, and don't apply the button
@@ -458,7 +487,10 @@
 
             const description = describeControl(button);
 
-            if (KEEP_BUTTON_PATTERN.test(description)) {
+            if (
+                KEEP_BUTTON_PATTERN.test(description) ||
+                KEEP_SETTINGS_PATTERN.test(description)
+            ) {
                 button.removeAttribute(
                     'data-tm-peacock-hide-button'
                 );

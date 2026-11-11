@@ -6,7 +6,7 @@ A collection of userscripts for use with [Tampermonkey](https://www.tampermonkey
 
 | Script | Site | Description |
 |--------|------|-------------|
-| [nba-remove-scrubbar](./nba-remove-scrubbar.user.js) | nba.com | Removes scrub bar and time controls from video overlay |
+| [nba-remove-scrubbar](./nba-remove-scrubbar.user.js) | nba.com | Removes scrub bar and time controls from video overlay; J/L seek 5s instead of 10s |
 | [paramountplus-remove-sidebar](./paramountplus-remove-sidebar.user.js) | paramountplus.com | Removes sidebar plugin elements |
 | [Paramount+ - J-K-L player keys](./Paramount+%20-%20J-K-L%20player%20keys.user.js) | paramountplus.com | J/K/L keys: back 5s, play/pause, forward 5s |
 | [peacock-timebar-only](./peacock-timebar-only.user.js) | peacocktv.com | Minimal overlay with time bar only |
