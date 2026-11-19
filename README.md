@@ -37,3 +37,5 @@ A collection of userscripts for use with [Tampermonkey](https://www.tampermonkey
 ## License
 
 MIT
+
+Contributions and bug reports are welcome.
